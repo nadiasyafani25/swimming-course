@@ -1,0 +1,2 @@
+ALTER TABLE "users" ADD COLUMN "swim_status" varchar(20) DEFAULT 'belum_dievaluasi' NOT NULL;--> statement-breakpoint
+ALTER TABLE "users" ADD CONSTRAINT "users_swim_status_check" CHECK ("users"."swim_status" in ('belum_dievaluasi', 'bisa_berenang'));

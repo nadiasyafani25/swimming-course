@@ -1,0 +1,17 @@
+# Normalisasi line ending supaya diff antar mesin tidak noisy.
+# File disimpan dengan LF di dalam repo, lalu di-check-out sesuai OS.
+* text=auto eol=lf
+
+# Binary tidak boleh disentuh sama sekali.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# Lockfile dan generated files: simpan apa adanya.
+package-lock.json -diff linguist-generated=true
