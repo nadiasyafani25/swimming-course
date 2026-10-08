@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import CertificateDocument from "@/components/certificate/CertificateDocument";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
-import type { SiteSettings } from "@/lib/settings";
+import type { SiteInfo } from "@/lib/settings";
 import {
   COMPETENCY_TEMPLATES,
   DRAFT_STORAGE_KEY,
@@ -52,7 +52,7 @@ type CertificateGeneratorModalProps = {
   onClose: () => void;
 };
 
-function loadDraft(site: SiteSettings): CertificateDraft {
+function loadDraft(site: SiteInfo): CertificateDraft {
   const base = emptyDraft(site);
   if (typeof window === "undefined") return base;
 

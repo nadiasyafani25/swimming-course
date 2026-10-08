@@ -57,6 +57,29 @@ export const SETTING_KEYS = Object.keys(
   SETTING_DEFAULTS,
 ) as (keyof SiteSettings)[];
 
+/**
+ * Bagian dari `SiteSettings` yang aman dikirim ke komponen client.
+ *
+ * Root layout menaruhnya di context, dan React menyerialkan isi context itu ke
+ * HTML tiap halaman. Kalau objek penuh yang dikirim, nomor rekening, nama bank,
+ * dan string QRIS ikut terbawa dan bisa dibaca siapa pun lewat "View Page
+ * Source" — termasuk di halaman publik yang tidak butuh data pembayaran itu.
+ *
+ * Yang dikembalikan ke browser hanya identitas tempat kursus. Halaman
+ * pembayaran tetap membaca data bank dari server sebagai prop, dan form
+ * pengaturan admin membacanya lewat `/api/admin/settings`, jadi keduanya tidak
+ * bergantung pada context ini.
+ */
+export type SiteInfo = Pick<SiteSettings, "businessName" | "address" | "phone">;
+
+export function pickSiteInfo(settings: SiteSettings): SiteInfo {
+  return {
+    businessName: settings.businessName,
+    address: settings.address,
+    phone: settings.phone,
+  };
+}
+
 const BOOLEAN_KEYS = new Set<keyof SiteSettings>([
   "notifyNewRegistration",
   "notifyPaymentReminder",

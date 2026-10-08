@@ -1,22 +1,24 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { SiteSettings } from "@/lib/settings";
+import type { SiteInfo } from "@/lib/settings";
 
 /**
- * Pengaturan situs untuk komponen client.
+ * Identitas tempat kursus untuk komponen client.
  *
- * Nilai diambil di server (root layout) lalu diteruskan lewat context, supaya
- * Navbar, Sidebar, dan halaman kontak bisa menampilkan nama tempat kursus,
- * alamat, dan nomor telepon yang sama tanpa query sendiri.
+ * Sengaja hanya `SiteInfo`, bukan `SiteSettings` penuh: nilai di sini ikut
+ * ter-serialize ke HTML setiap halaman, jadi nominal rekening, nama bank, dan
+ * string QRIS tidak boleh masuk ke context ini. Halaman pembayaran menerimanya
+ * sebagai prop dari server, dan form pengaturan admin membacanya lewat
+ * `/api/admin/settings`.
  */
-const SiteSettingsContext = createContext<SiteSettings | null>(null);
+const SiteSettingsContext = createContext<SiteInfo | null>(null);
 
 export function SiteSettingsProvider({
   value,
   children,
 }: {
-  value: SiteSettings;
+  value: SiteInfo;
   children: React.ReactNode;
 }) {
   return (
@@ -26,7 +28,7 @@ export function SiteSettingsProvider({
   );
 }
 
-export function useSiteSettings(): SiteSettings {
+export function useSiteSettings(): SiteInfo {
   const value = useContext(SiteSettingsContext);
 
   if (!value) {

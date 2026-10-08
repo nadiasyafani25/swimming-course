@@ -2,6 +2,7 @@
 import { Inter } from "next/font/google";
 import { SiteSettingsProvider } from "@/components/SiteSettingsProvider";
 import { getSiteSettings } from "@/lib/settings-db";
+import { pickSiteInfo } from "@/lib/settings";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,10 +28,15 @@ export default async function RootLayout({
 }>) {
   const settings = await getSiteSettings();
 
+  // Hanya identitas tempat kursus yang masuk ke context. Objek SiteSettings
+  // penuh akan ikut ter-serialize ke HTML setiap halaman, termasuk halaman
+  // publik, sehingga nomor rekening dan string QRIS bisa dibaca dari source.
+  const site = pickSiteInfo(settings);
+
   return (
     <html lang="id" className={`${inter.variable} antialiased`}>
       <body className="min-h-full flex flex-col">
-        <SiteSettingsProvider value={settings}>{children}</SiteSettingsProvider>
+        <SiteSettingsProvider value={site}>{children}</SiteSettingsProvider>
       </body>
     </html>
   );
