@@ -7,12 +7,17 @@
  * dan route API-nya supaya validasi di browser dan di server tidak pernah
  * berbeda — daftar MIME dan batas ukuran hanya boleh ada di satu tempat.
  *
- * Batas 5 MB dipilih karena bukti bayar umumnya screenshot atau foto transfer,
- * dan teks di halaman pembayaran sudah menjanjikan angka itu.
+ * Batas 3 MB dipilih karena bukti bayar umumnya screenshot atau foto transfer
+ * yang di bawah 1 MB, sementara Vercel membatasi payload request/response
+ * serverless function di 4,5 MB dan membalas 413 di atas itu. Berkas dikirim
+ * sebagai base64 di dalam JSON, yang menambah sekitar 33 persen, jadi 3 MB di
+ * disk menjadi sekitar 4 MB di kabel — masih di bawah plafon, sementara 5 MB
+ * menjadi sekitar 6,7 MB dan pasti ditolak platform sebelum kode server pernah
+ * sampai ke validasi di bawah.
  */
 
 /** Batas ukuran berkas bukti bayar, dalam byte. */
-export const MAX_PAYMENT_PROOF_BYTES = 5 * 1024 * 1024;
+export const MAX_PAYMENT_PROOF_BYTES = 3 * 1024 * 1024;
 
 const ALLOWED_PAYMENT_PROOF_TYPES = [
   "application/pdf",

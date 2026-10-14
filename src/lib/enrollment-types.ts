@@ -55,7 +55,7 @@ export type PaymentSummary = {
    * Cuma menyatakan bukti sudah ada atau belum, bukan isi berkasnya.
    *
    * `payments.proof_url` disimpan sebagai data URL base64 yang bisa mencapai
-   * 5 MB. `PaymentSummary` dipakai di beberapa halaman dashboard, jadi kalau
+   * 3 MB. `PaymentSummary` dipakai di beberapa halaman dashboard, jadi kalau
    * base64-nya ikut dibawa, setiap halaman peserta yang memuat daftar tagihan
    * akan ikut membawa berkas sebesar itu.
    */

@@ -20,7 +20,7 @@ type PaymentProofModalProps = {
  *
  * Berkas diambil dari route `/api/admin/payments/[id]/proof` saat modal dibuka,
  * bukan ikut di props tabel. Bukti disimpan sebagai data URL base64 yang bisa
- * mencapai 5 MB; kalau ikut diteruskan ke tabel, seluruh bukti akan ikut
+ * mencapai 3 MB; kalau ikut diteruskan ke tabel, seluruh bukti akan ikut
  * ter-inline ke payload halaman admin setiap kali panel pembayaran dibuka.
  *
  * Jenis berkasnya dibaca dari header `Content-Type`, bukan ditebak dari

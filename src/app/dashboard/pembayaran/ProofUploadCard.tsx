@@ -11,6 +11,13 @@ import {
 } from "@/lib/payment-proof";
 import type { PaymentMethod } from "@/lib/payment-method";
 
+/**
+ * Batas ukuran dalam bahasa peserta, diturunkan dari konstanta tunggal
+ * supaya angka di teks dropdown, pesan galat, dan route API tidak pernah
+ * berbeda kalau someday batasnya diubah lagi.
+ */
+const MAX_PROOF_LABEL = formatBytes(MAX_PAYMENT_PROOF_BYTES);
+
 type ProofUploadCardProps = {
   /** Id tagihan yang menunggu bukti; null kalau tidak ada tagihan aktif. */
   paymentId: string | null;
@@ -78,7 +85,7 @@ export default function ProofUploadCard({
     if (selected.size > MAX_PAYMENT_PROOF_BYTES) {
       setFile(null);
       setFileError(
-        `Ukuran berkas ${formatBytes(selected.size)} melebihi batas 5 MB.`,
+        `Ukuran berkas ${formatBytes(selected.size)} melebihi batas ${MAX_PROOF_LABEL}.`,
       );
       return;
     }
@@ -122,7 +129,7 @@ export default function ProofUploadCard({
 
         // Pesan yang menyangkut berkas ditampilkan tepat di area pilihan file,
         // sisanya di bawah tombol supaya tidak menggeser dropzone.
-        if (/berkas|jpg|png|pdf|5 mb/i.test(message)) {
+        if (/berkas|jpg|png|pdf|mb/i.test(message)) {
           setFileError(message);
         } else {
           setFormError(message);
@@ -211,7 +218,7 @@ export default function ProofUploadCard({
               Seret file ke sini atau klik untuk memilih
             </p>
             <p className="mt-1 text-[11px] text-[#8FA3B8]">
-              Format JPG, PNG, atau PDF · maks 5MB
+              Format JPG, PNG, atau PDF · maks {MAX_PROOF_LABEL}
             </p>
           </>
         )}

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import {
+  formatBytes,
   isAllowedPaymentProofType,
   MAX_PAYMENT_PROOF_BYTES,
   parseProofDataUrl,
@@ -95,7 +96,9 @@ export async function POST(
 
     if (proof.bytes.byteLength > MAX_PAYMENT_PROOF_BYTES) {
       return NextResponse.json(
-        { error: "Ukuran berkas maksimal 5 MB." },
+        {
+          error: `Ukuran berkas maksimal ${formatBytes(MAX_PAYMENT_PROOF_BYTES)}.`,
+        },
         { status: 400 },
       );
     }

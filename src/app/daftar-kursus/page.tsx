@@ -11,6 +11,14 @@ export const metadata: Metadata = {
     "Daftar kursus renang SwimmingCourse di Hotel Pelangi, Tanjungpinang. Pilih kelas reguler, semi private, atau private.",
 };
 
+/**
+ * Daftar program diambil dari database saat request, bukan saat build.
+ * `force-dynamic` di root layout sudah menyiapkan ini, tapi ditulis eksplisit
+ * di sini karena halaman ini punya query-nya sendiri (`listCourseOptions()`),
+ * bukan cuma lewat layout.
+ */
+export const dynamic = "force-dynamic";
+
 const highlights = [
   {
     icon: Waves,

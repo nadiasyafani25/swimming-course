@@ -160,7 +160,7 @@ export type PaymentRow = {
    * Cuma menyatakan bukti sudah ada atau belum, bukan isi berkasnya.
    *
    * `payments.proof_url` disimpan sebagai data URL base64 yang bisa mencapai
-   * 5 MB. Kalau ikut dikirim ke tabel ini, seluruh bukti akan ikut ter-inline
+   * 3 MB. Kalau ikut dikirim ke tabel ini, seluruh bukti akan ikut ter-inline
    * ke payload halaman admin setiap kali panel dibuka. Isinya diambil terpisah
    * lewat route `/api/admin/payments/[id]/proof` saat pratinjau dibuka.
    */

@@ -157,7 +157,49 @@ prototype/                # mockup HTML (tidak ikut repo)
 
 ## Deploy
 
-Siap untuk Vercel. Tambahkan environment variable berikut di project settings:
+Siap untuk Vercel. Repo di-import dari GitHub, lalu hanya butuh satu env var.
 
-- `DATABASE_URL`
-- `DATABASE_URL_UNPOOLED` (kalau `npm run db:push` dijalankan dari luar)
+### 1. Environment variable
+
+Di **Project → Settings → Environment Variables**, tambahkan:
+
+| Variabel | Wajib | Sumber |
+| --- | --- | --- |
+| `DATABASE_URL` | ya | Neon Dashboard → Connection Strings → **Pooled connection** |
+
+Centang **Production, Preview, dan Development**. Kalau hanya Production yang
+dipilih, build deploy berikutnya (yang secara default berjalan sebagai Preview)
+gagal dengan:
+
+```
+parseEnv: the required Neon env variables are not present in process.env.
+  - DATABASE_URL is missing
+```
+
+`DATABASE_URL_UNPOOLED` dan `COACH_NAME` hanya dibutuhkan kalau `npm run db:push`
+atau `npm run db:seed` dijalankan dari luar Vercel — keduanya tidak dipakai
+aplikasi saat runtime.
+
+Host di dalam `DATABASE_URL` harus menunjuk ke project dan branch Neon yang sama
+dengan yang dipakai saat `npm run db:push` dijalankan. Kalau berbeda, deploy
+tetap hijau tapi setiap halaman publik akan gagal dengan
+`relation "settings" does not exist`.
+
+### 2. Deploy
+
+**Project → Settings → Git** pastikan branch `main` terhubung, lalu **Deployments
+→ Redeploy**. Build command dan output tidak perlu diubah — Vercel mengenali Next.js
+otomatis.
+
+### Catatan arsitektur
+
+Build tidak pernah menyentuh database. Semua halaman publik memakai
+`export const dynamic = "force-dynamic"` karena root layout memanggil
+`getSiteSettings()`, jadi Neon tidak perlu hidup, termigrasi, atau terjangkau
+dari region build ketika deploy. Koneksinya dibuat lazy di `src/db/index.ts`,
+sehingga `DATABASE_URL` baru dibaca ketika ada query yang benar-benar
+dieksekusi — bukan ketika modul diimpor.
+
+Konsekuensinya, perubahan pengaturan di panel admin langsung tampil tanpa perlu
+`revalidatePath`, dan TTFB halaman publik bergantung pada latensi Neon
+(sekitar 50-100 ms).

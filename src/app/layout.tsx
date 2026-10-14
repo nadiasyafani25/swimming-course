@@ -5,6 +5,19 @@ import { getSiteSettings } from "@/lib/settings-db";
 import { pickSiteInfo } from "@/lib/settings";
 import "./globals.css";
 
+/**
+ * Halaman publik selalu dirender saat request.
+ *
+* Root layout memanggil `getSiteSettings()`, jadi tanpa baris ini Next akan
+ * mencoba men-prerender 12 halaman publik saat `next build`, dan build itu
+ * wajib connect ke Neon. Dengan Neon mati, belum termigrasi, atau tidak
+ * terjangkau dari region build, deploy ikut gagal — padahal tidak ada salahnya
+ * dengan kodenya. `force-dynamic` memindahkan query ke runtime, jadi build
+ * cukup bebas dari database dan perubahan pengaturan langsung tampil tanpa
+ * perlu revalidate manual.
+ */
+export const dynamic = "force-dynamic";
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],

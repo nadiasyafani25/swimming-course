@@ -1622,7 +1622,7 @@ export async function findPaymentById(id: string) {
  * Ambil bukti bayar satu tagihan untuk pratinjau admin.
  *
  * Hanya `proof_url` yang dibaca, terpisah dari `listPaymentRows` yang sengaja
- * hanya mengambil flag "ada atau tidak" supaya bukti sebesar 5 MB tidak ikut
+ * hanya mengambil flag "ada atau tidak" supaya bukti sebesar 3 MB tidak ikut
  * ter-inline ke payload halaman admin.
  */
 export async function findPaymentProof(
