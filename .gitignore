@@ -47,6 +47,10 @@ next-env.d.ts
 # catatan progres pribadi, isinya kredensial akun test.
 PROGRESS*.md
 
+# catatan proses deploy ke Vercel. Isinya menyebut insiden kebocoran
+# kredensial yang belum selesai ditangani, jadi tidak pernah ter-push.
+DEPLOY*.txt
+
 # mockup HTML statis untuk desain halaman. Tidak dirujuk build atau src/.
 /prototype/
 
